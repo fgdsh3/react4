@@ -1,0 +1,155 @@
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400;
+  src: url('../../fonts/Inter-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 400;
+  src: url('../../fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 500;
+  src: url('../../fonts/Roboto-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'Inter UI';
+  font-weight: 400;
+  src: url('../../fonts/Inter-UI-Regular.otf');
+}
+
+html,
+body {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  background-color: #EBEEF3;
+  color: rgba(0, 0, 0, 0.75);
+  font-family: 'Inter UI';
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+button {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+ul,
+input {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 0 10px;
+}
+
+.red {
+  color: red;
+}
+
+.red-btn {
+  color: #F5222D;
+  font-family: 'Inter UI';
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #F5222D;
+  text-align: center;
+  padding: 6px 17px;
+}
+
+.green-btn {
+  color: #52C41A;
+  font-family: 'Inter UI';
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #52C41A;
+  text-align: center;
+  padding: 6px 17px;
+}
+
+.blue-btn {
+  color: #1890FF;
+  font-family: 'Inter UI';
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #1890FF;
+  text-align: center;
+  padding: 6px 17px;
+}
+
+.ant-pagination {
+  margin: 0 auto;
+
+  &-options {
+    display: none !important;
+  }
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  margin: 40px auto;
+}
+
+.loader::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  left: 20px;
+  top: 31px;
+  border: 10px solid transparent;
+  border-right-color: #FFF;
+  transform: rotate(-40deg);
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

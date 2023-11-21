@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  background-color: #fff;
+  padding: 0 22px;
+
+  a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  &__right a:nth-child(2) {
+    padding: 8px 18px;
+    margin-left: 19px;
+    color: #52C41A;
+    border-radius: 5px;
+    border: 1px solid #52C41A;
+  }
+
+  &__avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+  }
+}

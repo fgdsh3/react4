@@ -1,0 +1,54 @@
+.create-article {
+  margin-top: 34px;
+  padding: 48px 32px;
+  border-radius: 6px;
+  border: 1px solid #D9D9D9;
+  background: #FFF;
+  box-shadow: 0px 0.6088px 2.93329px 0px rgba(0, 0, 0, 0.02), 0px 1.46302px 7.04911px 0px rgba(0, 0, 0, 0.03), 0px 2.75474px 13.27285px 0px rgba(0, 0, 0, 0.04), 0px 4.91399px 23.67649px 0px rgba(0, 0, 0, 0.04), 0px 9.19107px 44.28427px 0px rgba(0, 0, 0, 0.05), 0px 22px 106px 0px rgba(0, 0, 0, 0.07);
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+
+    & input,
+    textarea {
+      padding: 8px 12px;
+      height: 40px;
+      width: 100%;
+      border-radius: 4px;
+      border: 1px solid #D9D9D9;
+      background: #FFF;
+    }
+
+    & textarea {
+      height: 168px;
+      resize: none;
+    }
+  }
+
+  &__tags {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__tagrow {
+    display: flex;
+    gap: 18px;
+
+    .create-article__tag {
+      width: 300px;
+      height: 40px;
+    }
+  }
+
+  &__send {
+    padding: 8px 16px;
+    color: #fff;
+    background-color: #1890FF;
+    text-align: center;
+    height: 40px;
+    width: 320px;
+  }
+}
