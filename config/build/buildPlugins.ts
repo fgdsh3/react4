@@ -9,7 +9,7 @@ export function buildPlugins(options: BuildOptions): Configuration['plugins'] {
   const isDev = options.mode === 'development'
   const isProd = options.mode === 'production'
   const plugins: Configuration['plugins'] = [
-    new HtmlWebpackPlugin({ template: path.resolve(__dirname, '../../public', 'index.html') }),
+    new HtmlWebpackPlugin({ template: path.resolve(__dirname, '../../public', 'index.html'), filename: 'index.html' }),
   ]
 
   if (isDev) {
