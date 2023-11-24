@@ -18,8 +18,8 @@ export function buildPlugins(options: BuildOptions): Configuration['plugins'] {
 
   if (isProd) {
     plugins.push(new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash:8].css',
-      chunkFilename: 'css/[name].[contenthash:8].css'
+      filename: '[name].[contenthash:8].css',
+      chunkFilename: '[name].[contenthash:8].css'
     }))
   }
 
