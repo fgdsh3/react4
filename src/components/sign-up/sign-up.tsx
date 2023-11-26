@@ -110,7 +110,7 @@ export const SignUp = () => {
         Already have an account?<Link to="/sign-in"> Sign In</Link>.
       </span>
       <p className="red">
-        {serverErrors['email or password']
+        {serverErrors && serverErrors['email or password']
           ? `email or password ${serverErrors['email or password']}`
           : ''}
       </p>

@@ -75,7 +75,7 @@ export const SignIn = () => {
         Don’t have an account?<Link to="/sign-up"> Sign up</Link>.
       </span>
       <p className="red">
-        {serverErrors['email or password']
+        {serverErrors && serverErrors['email or password']
           ? `email or password ${serverErrors['email or password']}`
           : ''}
       </p>
