@@ -4,8 +4,7 @@ import { format } from 'date-fns';
 import HeartSvg from '../../img/heart.svg';
 import RedHeartSvg from '../../img/red-heart.svg';
 import { useEffect } from 'react';
-import { useParams } from 'react-router';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   changeFavoritedFullArticle,
   getFullArticle,
@@ -102,7 +101,7 @@ export const FullArticle = () => {
       <div className="full-article__tagsrow">{formatTags(tagList)}</div>
       <p className="full-article__description">{description}</p>
       <div className="full-article__text">
-        <Markdown>{body}</Markdown>
+        <Markdown>{`${body}`}</Markdown>
       </div>
     </article>
   );

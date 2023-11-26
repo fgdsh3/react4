@@ -20,8 +20,8 @@ export const CreateArticle = () => {
 
   const schema = yup.object().shape({
     title: yup.string().required(),
-    description: yup.string().required(),
-    body: yup.string().required(),
+    description: yup.string().required('short description is a requred field'),
+    body: yup.string().required('text is a required field'),
     tagList: yup.array().of(yup.string()),
   });
 
@@ -35,10 +35,11 @@ export const CreateArticle = () => {
 
   const clientErrors = errors;
 
-  const onSubmitHandler = (data: IFullArticleData) => {
-    dispatch(fetchCreateArticle({ article: data })).then((resp) => {
-      navigate(`/articles/${resp.payload.slug}`);
-    });
+  const onSubmitHandler = async (data: IFullArticleData) => {
+    const resultAction = await dispatch(fetchCreateArticle({ article: data }));
+    if (resultAction.meta.requestStatus === 'fulfilled') {
+      navigate('/');
+    }
   };
 
   const createTags = () => {
@@ -56,11 +57,19 @@ export const CreateArticle = () => {
           }}
         />
         {tags.length > 1 ? (
-          <button className="red-btn" onClick={() => dispatch(deleteTag(i))}>
+          <button
+            type="button"
+            className="red-btn"
+            onClick={() => dispatch(deleteTag(i))}
+          >
             Delete
           </button>
         ) : null}
-        <button className="blue-btn" onClick={() => dispatch(addTag())}>
+        <button
+          type="button"
+          className="blue-btn"
+          onClick={() => dispatch(addTag())}
+        >
           Add tag
         </button>
       </div>
@@ -87,7 +96,9 @@ export const CreateArticle = () => {
             placeholder="Title"
           />
           <p className="red">{clientErrors.title?.message}</p>
-          <p className="red">{`email ${serverErrors?.title}`}</p>
+          {serverErrors && serverErrors.title ? (
+            <p className="red">{`title ${serverErrors?.title}`}</p>
+          ) : null}
         </label>
         <label>
           Short description
@@ -98,7 +109,9 @@ export const CreateArticle = () => {
             placeholder="Title"
           />
           <p className="red">{clientErrors.description?.message}</p>
-          <p className="red">{`email ${serverErrors?.description}`}</p>
+          {serverErrors && serverErrors.description ? (
+            <p className="red">{`description ${serverErrors?.description}`}</p>
+          ) : null}
         </label>
         <label>
           Text
@@ -109,13 +122,17 @@ export const CreateArticle = () => {
             placeholder="Text"
           />
           <p className="red">{clientErrors.body?.message}</p>
-          <p className="red">{`email ${serverErrors?.body}`}</p>
+          {serverErrors && serverErrors.body ? (
+            <p className="red">{`text ${serverErrors?.body}`}</p>
+          ) : null}
         </label>
         <label className="create-article__tags">
           Tags
           {createTags()}
           <p className="red">{clientErrors.tagList?.message}</p>
-          <p className="red">{`email ${serverErrors?.tagList}`}</p>
+          {serverErrors && serverErrors.tagList ? (
+            <p className="red">{`tags ${serverErrors?.tagList}`}</p>
+          ) : null}
         </label>
         <button className="create-article__send">Send</button>
       </form>

@@ -93,7 +93,9 @@ export const ArticleEdit = () => {
             placeholder="Title"
           />
           <p className="red">{clientErrors.title?.message}</p>
-          <p className="red">{`email ${serverErrors?.title}`}</p>
+          {serverErrors && serverErrors.title ? (
+            <p className="red">{`title ${serverErrors?.title}`}</p>
+          ) : null}
         </label>
         <label>
           Short description
@@ -105,7 +107,9 @@ export const ArticleEdit = () => {
             placeholder="Title"
           />
           <p className="red">{clientErrors.description?.message}</p>
-          <p className="red">{`email ${serverErrors?.description}`}</p>
+          {serverErrors && serverErrors.description ? (
+            <p className="red">{`description ${serverErrors?.description}`}</p>
+          ) : null}
         </label>
         <label>
           Text
@@ -117,13 +121,17 @@ export const ArticleEdit = () => {
             placeholder="Text"
           />
           <p className="red">{clientErrors.body?.message}</p>
-          <p className="red">{`email ${serverErrors?.body}`}</p>
+          {serverErrors && serverErrors.body ? (
+            <p className="red">{`text ${serverErrors?.body}`}</p>
+          ) : null}
         </label>
         <label className="create-article__tags">
           Tags
           {createTags()}
           <p className="red">{clientErrors.tagList?.message}</p>
-          <p className="red">{`email ${serverErrors?.tagList}`}</p>
+          {serverErrors && serverErrors.tagList ? (
+            <p className="red">{`tags ${serverErrors?.tagList}`}</p>
+          ) : null}
         </label>
         <button className="create-article__send">Send</button>
       </form>
