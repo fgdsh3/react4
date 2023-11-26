@@ -35,8 +35,8 @@ export const SignIn = () => {
 
   const onSubmitHandler = async (data: ISignInData) => {
     dispatch(clearServerErrors());
-    await dispatch(login({ user: data }));
-    if (Object.keys(serverErrors).length === 0) {
+    const resultAction = await dispatch(login({ user: data }));
+    if (resultAction.meta.requestStatus === 'fulfilled') {
       navigate('/');
     }
   };

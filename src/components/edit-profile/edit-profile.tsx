@@ -29,10 +29,10 @@ export const EditProfile = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmitHandler = (data: IUserObj) => {
+  const onSubmitHandler = async (data: IUserObj) => {
     dispatch(clearServerErrors());
-    dispatch(updateUser(data));
-    if (!serverErrors) {
+    const resultAction = await dispatch(updateUser(data));
+    if (resultAction.meta.requestStatus === 'fulfilled') {
       navigate('/');
     }
   };

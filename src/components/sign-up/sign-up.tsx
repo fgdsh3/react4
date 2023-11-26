@@ -42,8 +42,8 @@ export const SignUp = () => {
 
   const onSubmitHandler = async (data: ISignUpData) => {
     dispatch(clearServerErrors());
-    await dispatch(createUser({ user: data }));
-    if (Object.keys(serverErrors).length === 0) {
+    const resultAction = await dispatch(createUser({ user: data }));
+    if (resultAction.meta.requestStatus === 'fulfilled') {
       navigate('/sign-in');
     }
   };

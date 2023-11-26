@@ -21,11 +21,6 @@ interface IServerErrors {
   image?: string;
 }
 
-interface IServerErrorAction {
-  payload: { errors: IServerErrors };
-  type: string;
-}
-
 interface IState {
   currUser: IUserObj | '';
   isLoading: boolean;
@@ -51,7 +46,7 @@ export const login = createAsyncThunk(
 
       return res.data.user;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data.errors);
     }
   },
 );
@@ -74,7 +69,7 @@ export const updateUser = createAsyncThunk(
 
       return res.data.user;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data.errors);
     }
   },
 );
@@ -86,7 +81,7 @@ export const createUser = createAsyncThunk(
       const res = await axios.post(`${apiConfig.baseUrl}users/`, logUpObject);
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data.errors);
     }
   },
 );
@@ -109,19 +104,31 @@ export const user = createSlice({
     builder.addCase(updateUser.fulfilled, (state: IState, action) => {
       state.currUser = action.payload;
     });
-    /*  builder.addCase(
+    builder.addCase(
       login.rejected,
-      (state: IState, action: { payload: { errors: IServerErrors }; type: string }) => {
-        state.serverErrors = action.payload.errors;
-      }
-    ); */
-    builder.addMatcher(
+      (state: IState, action: { payload: IServerErrors; type: string }) => {
+        state.serverErrors = action.payload;
+      },
+    );
+    builder.addCase(
+      createUser.rejected,
+      (state: IState, action: { payload: IServerErrors; type: string }) => {
+        state.serverErrors = action.payload;
+      },
+    );
+    builder.addCase(
+      updateUser.rejected,
+      (state: IState, action: { payload: IServerErrors; type: string }) => {
+        state.serverErrors = action.payload;
+      },
+    );
+    /*   builder.addMatcher(
       (action) => action.type === login.rejected.type,
       (state: IState, action: IServerErrorAction) => {
         state.serverErrors = action.payload.errors;
       },
-    );
-    builder.addMatcher(
+    ); */
+    /*  builder.addMatcher(
       (action) => action.type === updateUser.rejected.type,
       (state: IState, action: IServerErrorAction) => {
         state.serverErrors = action.payload.errors;
@@ -132,7 +139,7 @@ export const user = createSlice({
       (state: IState, action: IServerErrorAction) => {
         state.serverErrors = action.payload.errors;
       },
-    );
+    ); */
   },
 });
 
