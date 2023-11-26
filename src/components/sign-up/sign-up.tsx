@@ -65,9 +65,7 @@ export const SignUp = () => {
           placeholder="Username"
         />
         <p className="red">{clientErrors.username?.message}</p>
-        {serverErrors.username && (
-          <p className="red">{`username ${serverErrors.username}`}</p>
-        )}
+        <p className="red">{`username ${serverErrors?.username}`}</p>
       </label>
       <label>
         Email address
@@ -77,17 +75,13 @@ export const SignUp = () => {
           placeholder="Email address"
         />
         <p className="red">{clientErrors.email?.message}</p>
-        {serverErrors.email && (
-          <p className="red">{`email ${serverErrors.email}`}</p>
-        )}
+        <p className="red">{`email ${serverErrors?.email}`}</p>
       </label>
       <label>
         Password
         <input {...register('password')} placeholder="Password" />
         <p className="red">{clientErrors.password?.message}</p>
-        {serverErrors.password && (
-          <p className="red">{`password ${serverErrors.password}`}</p>
-        )}
+        <p className="red">{`password ${serverErrors?.password}`}</p>
       </label>
       <label>
         Repeat Password
@@ -115,9 +109,11 @@ export const SignUp = () => {
         {' '}
         Already have an account?<Link to="/sign-in"> Sign In</Link>.
       </span>
-      {serverErrors['email or password'] && (
-        <p className="red">{`Email or password ${serverErrors['email or password']}`}</p>
-      )}
+      <p className="red">
+        {serverErrors['email or password']
+          ? `email or password ${serverErrors['email or password']}`
+          : ''}
+      </p>
     </form>
   );
 };

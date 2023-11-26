@@ -13,7 +13,7 @@ import {
 
 export const ArticleEdit = () => {
   const { fullArticle } = useAppSelector((state) => state.fullArticle);
-  const { currUser } = useAppSelector((state) => state.user);
+  const { currUser, serverErrors } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -24,9 +24,15 @@ export const ArticleEdit = () => {
     tagList: yup.array().of(yup.string()),
   });
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const clientErrors = errors;
 
   if (!fullArticle) {
     return null;
@@ -86,6 +92,8 @@ export const ArticleEdit = () => {
             className="create-article__form-title"
             placeholder="Title"
           />
+          <p className="red">{clientErrors.title?.message}</p>
+          <p className="red">{`email ${serverErrors?.title}`}</p>
         </label>
         <label>
           Short description
@@ -96,6 +104,8 @@ export const ArticleEdit = () => {
             className="create-article__form-title"
             placeholder="Title"
           />
+          <p className="red">{clientErrors.description?.message}</p>
+          <p className="red">{`email ${serverErrors?.description}`}</p>
         </label>
         <label>
           Text
@@ -106,10 +116,14 @@ export const ArticleEdit = () => {
             className="create-article__form-text"
             placeholder="Text"
           />
+          <p className="red">{clientErrors.body?.message}</p>
+          <p className="red">{`email ${serverErrors?.body}`}</p>
         </label>
         <label className="create-article__tags">
           Tags
           {createTags()}
+          <p className="red">{clientErrors.tagList?.message}</p>
+          <p className="red">{`email ${serverErrors?.tagList}`}</p>
         </label>
         <button className="create-article__send">Send</button>
       </form>

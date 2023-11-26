@@ -63,9 +63,7 @@ export const EditProfile = () => {
           placeholder="Username"
         />
         <p className="red">{errors.username?.message}</p>
-        {serverErrors.username && (
-          <p className="red">{`username ${serverErrors.username}`}</p>
-        )}
+        <p className="red">{`username ${serverErrors?.username}`}</p>
       </label>
       <label>
         Email address
@@ -77,9 +75,7 @@ export const EditProfile = () => {
           placeholder="Email address"
         />
         <p className="red">{errors.email?.message}</p>
-        {serverErrors.email && (
-          <p className="red">{`email ${serverErrors.email}`}</p>
-        )}
+        <p className="red">{`email ${serverErrors?.email}`}</p>
       </label>
       <label>
         New password
@@ -90,9 +86,7 @@ export const EditProfile = () => {
           placeholder="Password"
         />
         <p className="red">{errors.password?.message}</p>
-        {serverErrors.password && (
-          <p className="red">{`password ${serverErrors.password}`}</p>
-        )}
+        <p className="red">{`password ${serverErrors?.password}`}</p>
       </label>
       <label>
         Avatar image
@@ -103,9 +97,7 @@ export const EditProfile = () => {
           placeholder="Avatar"
         />
         <p className="red">{errors.image?.message}</p>
-        {serverErrors.image && (
-          <p className="red">{`image ${serverErrors.image}`}</p>
-        )}
+        <p className="red">{`image ${serverErrors?.image}`}</p>
       </label>
       <button className="edit-profile__submit-btn">Save</button>
     </form>

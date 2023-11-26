@@ -87,9 +87,7 @@ export const CreateArticle = () => {
             placeholder="Title"
           />
           <p className="red">{clientErrors.title?.message}</p>
-          {serverErrors.title && (
-            <p className="red">{`email ${serverErrors.title}`}</p>
-          )}
+          <p className="red">{`email ${serverErrors?.title}`}</p>
         </label>
         <label>
           Short description
@@ -100,9 +98,7 @@ export const CreateArticle = () => {
             placeholder="Title"
           />
           <p className="red">{clientErrors.description?.message}</p>
-          {serverErrors.description && (
-            <p className="red">{`email ${serverErrors.description}`}</p>
-          )}
+          <p className="red">{`email ${serverErrors?.description}`}</p>
         </label>
         <label>
           Text
@@ -113,17 +109,13 @@ export const CreateArticle = () => {
             placeholder="Text"
           />
           <p className="red">{clientErrors.body?.message}</p>
-          {serverErrors.body && (
-            <p className="red">{`email ${serverErrors.body}`}</p>
-          )}
+          <p className="red">{`email ${serverErrors?.body}`}</p>
         </label>
         <label className="create-article__tags">
           Tags
           {createTags()}
           <p className="red">{clientErrors.tagList?.message}</p>
-          {serverErrors.tagList && (
-            <p className="red">{`email ${serverErrors.tagList}`}</p>
-          )}
+          <p className="red">{`email ${serverErrors?.tagList}`}</p>
         </label>
         <button className="create-article__send">Send</button>
       </form>
