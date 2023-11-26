@@ -63,7 +63,9 @@ export const EditProfile = () => {
           placeholder="Username"
         />
         <p className="red">{errors.username?.message}</p>
-        <p className="red">{`username ${serverErrors?.username}`}</p>
+        {serverErrors && serverErrors.username ? (
+          <p className="red">{`username ${serverErrors?.username}`}</p>
+        ) : null}
       </label>
       <label>
         Email address
@@ -75,7 +77,9 @@ export const EditProfile = () => {
           placeholder="Email address"
         />
         <p className="red">{errors.email?.message}</p>
-        <p className="red">{`email ${serverErrors?.email}`}</p>
+        {serverErrors && serverErrors.email ? (
+          <p className="red">{`email ${serverErrors?.email}`}</p>
+        ) : null}
       </label>
       <label>
         New password
@@ -86,7 +90,9 @@ export const EditProfile = () => {
           placeholder="Password"
         />
         <p className="red">{errors.password?.message}</p>
-        <p className="red">{`password ${serverErrors?.password}`}</p>
+        {serverErrors && serverErrors.password ? (
+          <p className="red">{`password ${serverErrors?.password}`}</p>
+        ) : null}
       </label>
       <label>
         Avatar image
@@ -97,7 +103,9 @@ export const EditProfile = () => {
           placeholder="Avatar"
         />
         <p className="red">{errors.image?.message}</p>
-        <p className="red">{`image ${serverErrors?.image}`}</p>
+        {serverErrors && serverErrors.image ? (
+          <p className="red">{`image ${serverErrors?.image}`}</p>
+        ) : null}
       </label>
       <button className="edit-profile__submit-btn">Save</button>
     </form>

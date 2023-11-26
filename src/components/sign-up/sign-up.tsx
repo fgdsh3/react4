@@ -65,7 +65,9 @@ export const SignUp = () => {
           placeholder="Username"
         />
         <p className="red">{clientErrors.username?.message}</p>
-        <p className="red">{`username ${serverErrors?.username}`}</p>
+        {serverErrors && serverErrors.username ? (
+          <p className="red">{`username ${serverErrors?.username}`}</p>
+        ) : null}
       </label>
       <label>
         Email address
@@ -75,13 +77,17 @@ export const SignUp = () => {
           placeholder="Email address"
         />
         <p className="red">{clientErrors.email?.message}</p>
-        <p className="red">{`email ${serverErrors?.email}`}</p>
+        {serverErrors && serverErrors.email ? (
+          <p className="red">{`email ${serverErrors?.email}`}</p>
+        ) : null}
       </label>
       <label>
         Password
         <input {...register('password')} placeholder="Password" />
         <p className="red">{clientErrors.password?.message}</p>
-        <p className="red">{`password ${serverErrors?.password}`}</p>
+        {serverErrors && serverErrors.password ? (
+          <p className="red">{`password ${serverErrors?.password}`}</p>
+        ) : null}
       </label>
       <label>
         Repeat Password

@@ -58,7 +58,9 @@ export const SignIn = () => {
           placeholder="Email address"
         />
         <p className="red">{clientErrors.email?.message}</p>
-        <p className="red">{`email ${serverErrors?.email}`}</p>
+        {serverErrors && serverErrors.email ? (
+          <p className="red">{`email ${serverErrors?.email}`}</p>
+        ) : null}
       </label>
       <label>
         Password
@@ -68,7 +70,9 @@ export const SignIn = () => {
           placeholder="Password"
         />
         <p className="red">{clientErrors.password?.message}</p>
-        <p className="red">{`password ${serverErrors?.password}`}</p>
+        {serverErrors && serverErrors.password ? (
+          <p className="red">{`password ${serverErrors?.password}`}</p>
+        ) : null}
       </label>
       <button className="sign-in__submit-btn">Login</button>
       <span>
