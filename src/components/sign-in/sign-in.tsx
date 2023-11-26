@@ -1,16 +1,21 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { ApiService } from '../../services/api-service';
 import './sign-in.scss';
-import { login } from '../../store/reducers/user-slice';
-import { useAppDispatch } from '../../hooks/redux';
+import { clearServerErrors, login } from '../../store/reducers/user-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+
+export interface ISignInData {
+  email: string;
+  password: string;
+}
 
 export const SignIn = () => {
-
-  const dispatch = useAppDispatch()
-  const apiService = new ApiService();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { serverErrors } = useAppSelector((state) => state.user);
 
   const signInSchema = yup.object().shape({
     email: yup.string().email().required(),
@@ -21,38 +26,61 @@ export const SignIn = () => {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm({
+    mode: 'onSubmit',
     resolver: yupResolver(signInSchema),
   });
 
-  const onSubmitHandler = (data: any) => {
-    dispatch(login({ user: data }))
-    reset()
-  }
+  const clientErrors = errors;
+
+  const onSubmitHandler = async (data: ISignInData) => {
+    dispatch(clearServerErrors());
+    await dispatch(login({ user: data }));
+    if (Object.keys(serverErrors).length === 0) {
+      navigate('/');
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearServerErrors());
+    };
+  }, []);
 
   return (
-    <form className='sign-in__form' onSubmit={handleSubmit(onSubmitHandler)}>
-      <h4 className='sign-in__title'>Sign in</h4>
+    <form className="sign-in__form" onSubmit={handleSubmit(onSubmitHandler)}>
+      <h4 className="sign-in__title">Sign in</h4>
       <label>
         Email address
         <input
-          {...register("email")}
-          name='email'
-          placeholder='Email address'
+          {...register('email')}
+          name="email"
+          placeholder="Email address"
         />
-        <p className='red'>{errors.email?.message}</p>
+        <p className="red">{clientErrors.email?.message}</p>
+        {serverErrors.username && (
+          <p className="red">{`email ${serverErrors.email}`}</p>
+        )}
       </label>
       <label>
         Password
         <input
-          {...register("password")}
-          name='password'
-          placeholder='Password' />
-        <p className='red'>{errors.password?.message}</p>
+          {...register('password')}
+          autoComplete="off"
+          placeholder="Password"
+        />
+        <p className="red">{clientErrors.password?.message}</p>
+        {serverErrors.password && (
+          <p className="red">{`password ${serverErrors.password}`}</p>
+        )}
       </label>
-      <button className='sign-in__submit-btn'>Create</button>
-      <span>Don’t have an account?<Link to='/sign-up'>Sign up</Link>.</span>
+      <button className="sign-in__submit-btn">Login</button>
+      <span>
+        Don’t have an account?<Link to="/sign-up"> Sign up</Link>.
+      </span>
+      {serverErrors['email or password'] && (
+        <p className="red">{`email or password ${serverErrors['email or password']}`}</p>
+      )}
     </form>
-  )
-}
+  );
+};

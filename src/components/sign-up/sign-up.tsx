@@ -1,89 +1,123 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import './sign-up.scss'
-import { ApiService } from '../../services/api-service';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import './sign-up.scss';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { clearServerErrors, createUser } from '../../store/reducers/user-slice';
+import { useEffect } from 'react';
+
+export interface ISignUpData {
+  username: string;
+  email: string;
+  password: string;
+}
 
 export const SignUp = () => {
-
-  const apiService = new ApiService();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { serverErrors } = useAppSelector((state) => state.user);
 
   const schema = yup.object().shape({
     email: yup.string().email().required(),
     username: yup.string().min(3).max(20).required(),
     password: yup.string().min(6).max(40).required(),
-    repeatPassword: yup.string().oneOf([yup.ref("password"), ''], 'passwords must match').required('repeat password is required'),
-    checkbox: yup.boolean().oneOf([true], 'this field must be chosen')
+    repeatPassword: yup
+      .string()
+      .oneOf([yup.ref('password'), ''], 'passwords must match')
+      .required('repeat password is required'),
+    checkbox: yup.boolean().oneOf([true], 'this field must be chosen'),
   });
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm({
-    mode: 'onChange',
+    mode: 'onSubmit',
     resolver: yupResolver(schema),
   });
 
-  const onSubmitHandler = (data: any) => {
-    const newObj = { username: data.username, email: data.email, password: data.password }
-    apiService.createUser({ user: newObj })
-    reset()
-  }
+  const clientErrors = errors;
+
+  const onSubmitHandler = async (data: ISignUpData) => {
+    dispatch(clearServerErrors());
+    await dispatch(createUser({ user: data }));
+    if (Object.keys(serverErrors).length === 0) {
+      navigate('/sign-in');
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearServerErrors());
+    };
+  }, []);
 
   return (
-    <form className='sign-up__form' onSubmit={handleSubmit(onSubmitHandler)}>
-      <h4 className='sign-up__title'>Create new account</h4>
+    <form className="sign-up__form" onSubmit={handleSubmit(onSubmitHandler)}>
+      <h4 className="sign-up__title">Create new account</h4>
       <label>
         Username
         <input
-          {...register("username")}
-          name='username'
-          placeholder='Username'
+          {...register('username')}
+          name="username"
+          placeholder="Username"
         />
-        <p className='red'>{errors.username?.message}</p>
+        <p className="red">{clientErrors.username?.message}</p>
+        {serverErrors.username && (
+          <p className="red">{`username ${serverErrors.username}`}</p>
+        )}
       </label>
       <label>
         Email address
         <input
-          {...register("email")}
-          name='email'
-          placeholder='Email address'
+          {...register('email')}
+          name="email"
+          placeholder="Email address"
         />
-        <p className='red'>{errors.email?.message}</p>
+        <p className="red">{clientErrors.email?.message}</p>
+        {serverErrors.email && (
+          <p className="red">{`email ${serverErrors.email}`}</p>
+        )}
       </label>
       <label>
         Password
-        <input
-          {...register("password")}
-          name="password"
-          placeholder='Password'
-        />
-        <p className='red'>{errors.password?.message}</p>
+        <input {...register('password')} placeholder="Password" />
+        <p className="red">{clientErrors.password?.message}</p>
+        {serverErrors.password && (
+          <p className="red">{`password ${serverErrors.password}`}</p>
+        )}
       </label>
       <label>
         Repeat Password
         <input
-          {...register("repeatPassword")}
-          name="repeatPassword"
-          placeholder='Password' />
-        <p className='red'>{errors.repeatPassword?.message}</p>
+          {...register('repeatPassword')}
+          autoComplete="off"
+          placeholder="Password"
+        />
+        <p className="red">{clientErrors.repeatPassword?.message}</p>
       </label>
-      <div className='sign-up__checkbox-container'>
+      <div className="sign-up__checkbox-container">
         <label>
           <input
-            {...register("checkbox")}
-            className='sign-up__checkbox'
-            type="checkbox" />
-          I agree to the processing of my personal
-          information
-          <p className='red'>{errors.checkbox?.message}</p>
+            className="sign-up__checkbox"
+            {...register('checkbox')}
+            autoComplete="off"
+            type="checkbox"
+          />
+          I agree to the processing of my personal information
+          <p className="red">{clientErrors.checkbox?.message}</p>
         </label>
       </div>
-      <button className='sign-up__submit-btn'>Create</button>
-      <span> Already have an account?<Link to='/sign-in'>Sign In</Link>.</span>
+      <button className="sign-up__submit-btn">Create</button>
+      <span>
+        {' '}
+        Already have an account?<Link to="/sign-in"> Sign In</Link>.
+      </span>
+      {serverErrors['email or password'] && (
+        <p className="red">{`Email or password ${serverErrors['email or password']}`}</p>
+      )}
     </form>
-  )
-}
+  );
+};

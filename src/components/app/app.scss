@@ -72,6 +72,12 @@ img {
   width: 100%;
 }
 
+a {
+  color: #1890FF;
+  line-height: 20px;
+  text-decoration: none;
+}
+
 .container {
   margin: 0 auto;
   max-width: 960px;
@@ -85,17 +91,24 @@ img {
 .red-btn {
   color: #F5222D;
   font-family: 'Inter UI';
-  font-size: 14px;
   border-radius: 5px;
   border: 1px solid #F5222D;
   text-align: center;
   padding: 6px 17px;
 }
 
-.green-btn {
-  color: #52C41A;
+.black-btn {
+  color: rgba(0, 0, 0, 0.75);
   font-family: 'Inter UI';
-  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  text-align: center;
+  padding: 6px 17px;
+}
+
+.green-btn {
+  color: #52C41A !important;
+  font-family: 'Inter UI';
   border-radius: 5px;
   border: 1px solid #52C41A;
   text-align: center;
@@ -105,7 +118,6 @@ img {
 .blue-btn {
   color: #1890FF;
   font-family: 'Inter UI';
-  font-size: 14px;
   border-radius: 5px;
   border: 1px solid #1890FF;
   text-align: center;

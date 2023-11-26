@@ -6,10 +6,24 @@
   background: #FFF;
   box-shadow: 0px 0.6088px 2.93329px 0px rgba(0, 0, 0, 0.02), 0px 1.46302px 7.04911px 0px rgba(0, 0, 0, 0.03), 0px 2.75474px 13.27285px 0px rgba(0, 0, 0, 0.04), 0px 4.91399px 23.67649px 0px rgba(0, 0, 0, 0.04), 0px 9.19107px 44.28427px 0px rgba(0, 0, 0, 0.05), 0px 22px 106px 0px rgba(0, 0, 0, 0.07);
 
+  &__title {
+    color: #262626;
+    text-align: center;
+    font-family: 'Roboto';
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    margin-bottom: 20px;
+  }
+
   &__form {
     display: flex;
     flex-direction: column;
     gap: 21px;
+    color: #262626;
+    font-family: 'Roboto';
+    font-size: 14px;
+    line-height: 22px;
 
     & input,
     textarea {
@@ -25,6 +39,13 @@
       height: 168px;
       resize: none;
     }
+
+    & input::placeholder,
+    textarea::placeholder {
+      font-family: 'Roboto';
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 
   &__tags {
@@ -37,6 +58,21 @@
     display: flex;
     gap: 18px;
 
+    .blue-btn {
+      width: 135px;
+    }
+
+    .red-btn {
+      width: 120px;
+    }
+
+    .red-btn,
+    .blue-btn {
+      font-family: 'Roboto';
+      font-size: 16px;
+      line-height: 24px;
+    }
+
     .create-article__tag {
       width: 300px;
       height: 40px;
@@ -45,6 +81,8 @@
 
   &__send {
     padding: 8px 16px;
+    font-size: 16px;
+    font-family: 'Roboto';
     color: #fff;
     background-color: #1890FF;
     text-align: center;

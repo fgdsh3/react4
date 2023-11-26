@@ -54,10 +54,14 @@
     margin-top: 4px;
     width: 16px;
     height: 16px;
+    margin-right: 8px;
     cursor: pointer;
   }
 
   &__checkbox-container {
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 20px;
 
     &::before {
       position: absolute;

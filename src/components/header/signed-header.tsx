@@ -1,24 +1,34 @@
-import { Link } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../../hooks/redux"
-import { logOut } from "../../store/reducers/user-slice"
+import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { logOut } from '../../store/reducers/user-slice';
 import noAvatar from '../../img/no-avatar.jpg';
 
 export const SignedHeader = () => {
-  const { currUser } = useAppSelector(state => state.user)
-  const dispatch = useAppDispatch()
+  const { currUser } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   return (
-    <header className="header">
-      <Link to='/'>Realworld Blog</Link>
+    <header className="header signed-header">
+      <Link to="/">Realworld Blog</Link>
       <div className="header__right">
-        <Link to='/new-article'>Create article</Link>
-        <Link to='/profile'>
-          {currUser && currUser.username}
-          <img className="header__avatar" src={currUser && currUser.image ? currUser.image
-            : noAvatar} alt="avatar" />
+        <Link className="green-btn" to="/new-article">
+          Create article
         </Link>
-        <button onClick={() => dispatch(logOut())}>Log out</button>
+        <Link className="header__profile" to="/profile">
+          {currUser && <span>{currUser.username}</span>}
+          <img
+            className="header__avatar"
+            src={currUser && currUser.image ? currUser.image : noAvatar}
+            alt="avatar"
+          />
+        </Link>
+        <button
+          className="black-btn header__logout"
+          onClick={() => dispatch(logOut())}
+        >
+          Log out
+        </button>
       </div>
     </header>
-  )
-}
+  );
+};

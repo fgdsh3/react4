@@ -1,78 +1,113 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { ApiService } from '../../services/api-service';
+import { IUserObj } from '../../services/api-service';
 import './edit-profile.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { updateUser } from '../../store/reducers/user-slice';
+import { clearServerErrors, updateUser } from '../../store/reducers/user-slice';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const EditProfile = () => {
-  const { currUser } = useAppSelector(state => state.user)
-  const dispatch = useAppDispatch()
+  const { currUser, serverErrors } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const schema = yup.object().shape({
-    email: yup.string().email(),
-    username: yup.string()/* .min(3).max(20) */,
-    password: yup.string(),
-    image: yup.string(),
+    username: yup.string().required(),
+    email: yup.string().email().required(),
+    password: yup.string().min(6).max(40).notRequired(),
+    image: yup.string().url(),
   });
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(schema),
   });
 
-  const onSubmitHandler = (data: any) => {
-    dispatch(updateUser(data))
-    reset()
+  const onSubmitHandler = (data: IUserObj) => {
+    dispatch(clearServerErrors());
+    dispatch(updateUser(data));
+    if (!serverErrors) {
+      navigate('/');
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearServerErrors());
+    };
+  }, []);
+
+  if (!currUser) {
+    navigate('/sign-in');
   }
 
   return (
-    <form className='edit-profile__form' onSubmit={handleSubmit(onSubmitHandler)}>
-      <h4 className='edit-profile__title'>Edit Profile</h4>
+    <form
+      className="edit-profile__form"
+      onSubmit={handleSubmit(onSubmitHandler)}
+    >
+      <h4 className="edit-profile__title">Edit Profile</h4>
       <label>
-        Username<br />
+        Username
+        <br />
         <input
-          {...register("username")}
+          {...register('username')}
           defaultValue={currUser && currUser.username}
-          autoComplete='username'
-          placeholder='Username'
+          autoComplete="username"
+          placeholder="Username"
         />
-        <p className='red'>{errors.username?.message}</p>
+        <p className="red">{errors.username?.message}</p>
+        {serverErrors.username && (
+          <p className="red">{`username ${serverErrors.username}`}</p>
+        )}
       </label>
       <label>
-        Email address<br />
+        Email address
+        <br />
         <input
-          {...register("email")}
+          {...register('email')}
           defaultValue={currUser && currUser.email}
-          autoComplete='email'
-          placeholder='Email address'
+          autoComplete="email"
+          placeholder="Email address"
         />
-        <p className='red'>{errors.email?.message}</p>
+        <p className="red">{errors.email?.message}</p>
+        {serverErrors.email && (
+          <p className="red">{`email ${serverErrors.email}`}</p>
+        )}
       </label>
       <label>
-        New password<br />
+        New password
+        <br />
         <input
-          {...register("password")}
-          autoComplete="password"
-          placeholder='Password'
+          {...register('password')}
+          autoComplete="new-password"
+          placeholder="Password"
         />
-        <p className='red'>{errors.password?.message}</p>
+        <p className="red">{errors.password?.message}</p>
+        {serverErrors.password && (
+          <p className="red">{`password ${serverErrors.password}`}</p>
+        )}
       </label>
       <label>
-        Avatar image<br />
+        Avatar image
+        <br />
         <input
-          {...register("image")}
+          {...register('image')}
           defaultValue={currUser && currUser.image}
-          placeholder='Avatar' />
-        <p className='red'>{errors.image?.message}</p>
+          placeholder="Avatar"
+        />
+        <p className="red">{errors.image?.message}</p>
+        {serverErrors.image && (
+          <p className="red">{`image ${serverErrors.image}`}</p>
+        )}
       </label>
-      <button className='edit-profile__submit-btn'>Save</button>
+      <button className="edit-profile__submit-btn">Save</button>
     </form>
-  )
-}
+  );
+};

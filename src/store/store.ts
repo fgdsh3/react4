@@ -9,24 +9,24 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { fullArticle } from './reducers/full-article-slice';
 
 const rootReducer = combineReducers({
   articleList: articleList.reducer,
   user: user.reducer,
-  fullArticle: fullArticle.reducer
-})
+  fullArticle: fullArticle.reducer,
+});
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user']
-}
+  whitelist: ['user'],
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
@@ -38,7 +38,7 @@ const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;

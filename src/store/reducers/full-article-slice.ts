@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { apiConfig } from "../../apiConfig";
-import { StorageService } from "../../services/storage-service";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { apiConfig } from '../../apiConfig';
+import { StorageService } from '../../services/storage-service';
 
 interface IState {
   fullArticle: IFullArticleObj | '';
@@ -26,15 +26,19 @@ export interface IFullArticleObj {
     bio: string;
     image: string;
     following: boolean;
-  }
+  };
 }
 
-export interface IData {
+export interface IFullArticleData {
   title: string;
   decription: string;
   body: string;
   tags: string[];
+}
 
+export interface ITagAction {
+  type: string;
+  payload: { i: number; value: string };
 }
 
 const initialState: IState = {
@@ -42,104 +46,116 @@ const initialState: IState = {
   isLoading: false,
   notFoundPage: false,
   tags: [''],
-  error: ''
-}
+  error: '',
+};
 
-const storageService = new StorageService()
+const storageService = new StorageService();
 
-export const getFullArticle = createAsyncThunk('fullArticle/getArticle', async (slug: string) => {
-  const token = storageService.getToken()
+export const getFullArticle = createAsyncThunk(
+  'fullArticle/getArticle',
+  async (slug: string) => {
+    const token = storageService.getToken();
 
-  const response = await axios.get(`${apiConfig.baseUrl}articles/${slug}`, {
-    headers: {
-      Authorization: `Token ${token}`
-    }
-  })
-
-  return response.data.article
-});
-
-export const fetchCreateArticle = createAsyncThunk('fullArticle/createArticle', async (receivedArticle: { article: IData }) => {
-  const token = storageService.getToken()
-
-  const response = await axios.post(`${apiConfig.baseUrl}articles`,
-    { article: receivedArticle.article },
-    {
+    const response = await axios.get(`${apiConfig.baseUrl}articles/${slug}`, {
       headers: {
         Authorization: `Token ${token}`,
       },
-    })
+    });
 
-  return response.data.article
-});
+    return response.data.article;
+  },
+);
 
-export const fetchEditArticle = createAsyncThunk('fullArticle/editArticle', async (
-  receivedArticle: { article: IData; slug: string }) => {
-  const token = storageService.getToken()
+export const fetchCreateArticle = createAsyncThunk(
+  'fullArticle/createArticle',
+  async (receivedArticle: { article: IFullArticleData }) => {
+    const token = storageService.getToken();
 
-  const response = await axios.put(`${apiConfig.baseUrl}articles/${receivedArticle.slug}/`,
-    { article: receivedArticle.article },
-    {
-      headers: {
-        Authorization: `Token ${token}`,
+    const response = await axios.post(
+      `${apiConfig.baseUrl}articles`,
+      { article: receivedArticle.article },
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
       },
-    })
+    );
 
-  return response.data.article
-});
+    return response.data.article;
+  },
+);
+
+export const fetchEditArticle = createAsyncThunk(
+  'fullArticle/editArticle',
+  async (receivedArticle: { article: IFullArticleData; slug: string }) => {
+    const token = storageService.getToken();
+
+    const response = await axios.put(
+      `${apiConfig.baseUrl}articles/${receivedArticle.slug}/`,
+      { article: receivedArticle.article },
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      },
+    );
+
+    return response.data.article;
+  },
+);
 
 export const fullArticle = createSlice({
   name: 'fullArticle',
   initialState,
   reducers: {
     addTag(state: IState) {
-      state.tags.push('')
+      state.tags.push('');
     },
-    updateTag(state: IState, action: { type: string, payload: { i: number, value: any } }) {
-      state.tags[action.payload.i] = action.payload.value
+    updateTag(state: IState, action: ITagAction) {
+      state.tags[action.payload.i] = action.payload.value;
     },
     deleteTag(state: IState, action) {
-      const index: number = action.payload
-      state.tags = [...state.tags.slice(0, index), ...state.tags.slice(index + 1)]
+      const index: number = action.payload;
+      state.tags = [
+        ...state.tags.slice(0, index),
+        ...state.tags.slice(index + 1),
+      ];
     },
     changeFavoritedFullArticle(state: IState) {
       if (state.fullArticle) {
         if (state.fullArticle.favorited) {
-          state.fullArticle.favorited = false
-          state.fullArticle.favoritesCount -= 1
-        }
-        else {
-          state.fullArticle.favorited = true
-          state.fullArticle.favoritesCount += 1
+          state.fullArticle.favorited = false;
+          state.fullArticle.favoritesCount -= 1;
+        } else {
+          state.fullArticle.favorited = true;
+          state.fullArticle.favoritesCount += 1;
         }
       }
-    }
+    },
   },
   extraReducers(builder) {
     builder.addCase(getFullArticle.pending, (state: IState) => {
-      state.isLoading = true
-    })
-    builder.addCase(getFullArticle.fulfilled, (state: IState, action: { type: string; payload: IFullArticleObj }) => {
-      state.fullArticle = action.payload
-      state.isLoading = false
-      state.tags = action.payload.tagList
-    })
+      state.isLoading = true;
+    });
+    builder.addCase(
+      getFullArticle.fulfilled,
+      (state: IState, action: { type: string; payload: IFullArticleObj }) => {
+        state.fullArticle = action.payload;
+        state.isLoading = false;
+      },
+    );
     builder.addCase(getFullArticle.rejected, (state: IState) => {
-      state.notFoundPage = true
-      state.isLoading = false
-    })
+      state.notFoundPage = true;
+      state.isLoading = false;
+    });
     builder.addCase(fetchCreateArticle.pending, (state: IState) => {
-      state.isLoading = true
-    })
-    builder.addCase(fetchCreateArticle.fulfilled, (state: IState, action) => {
-      state.isLoading = false
-    })
+      state.isLoading = true;
+    });
+    builder.addCase(fetchCreateArticle.fulfilled, (state: IState) => {
+      state.isLoading = false;
+    });
   },
-})
+});
 
-export const {
-  addTag,
-  updateTag,
-  changeFavoritedFullArticle,
-  deleteTag
-} = fullArticle.actions
+export const { addTag, updateTag, changeFavoritedFullArticle, deleteTag } =
+  fullArticle.actions;

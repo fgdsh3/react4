@@ -1,0 +1,95 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "tsconfigRootDir": ".",
+    "project": ["./tsconfig.json"]
+  },
+  // Configuring third-party plugins
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  // Resolve imports
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
+    },
+    "react": {
+      "version": "18.x"
+    }
+  },
+  "rules": {
+    "no-unneeded-ternary": "off",
+    "import/newline-after-import": "off",
+    "import/no-useless-path-segments": "off",
+    "import/no-relative-packages": "off",
+    "import/order": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "import/namespace": "off",
+    "import/named": "off",
+    "import/no-unresolved": "off",
+    "import/no-duplicates": "off",
+    "import/default": "off",
+    "import/no-self-import": "off",
+    "import/extensions": "off",
+    "linebreak-style": "off",
+    "no-param-reassign": "off",
+    "import/no-cycle": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/button-has-type": "off",
+    "react/function-component-definition": "off",
+    "import/prefer-default-export": "off",
+    "no-plusplus": "off",
+    "react/react-in-jsx-scope": "off",
+    "comma-dangle": "off",
+    "class-methods-use-this": "off",
+    "react/jsx-props-no-spreading": "off",
+    // Configure prettier
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 80,
+        "endOfLine": "lf",
+        "singleQuote": true,
+        "indentStyle": "space",
+        "trailingComma": "all",
+        "useTabs": false
+      }
+    ],
+    // Disallow the `any` type.
+    "@typescript-eslint/no-explicit-any": "warn",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        }
+      }
+    ],
+    "react-hooks/exhaustive-deps": "off",
+    // Enforce the use of the shorthand syntax.
+    "no-console": "error"
+  }
+}

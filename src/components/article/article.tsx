@@ -1,10 +1,3 @@
-
-
 export const Article = () => {
-
-  return (
-    <article>
-
-    </article>
-  )
-}
+  return <article />;
+};

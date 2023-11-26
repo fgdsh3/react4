@@ -95,6 +95,8 @@
 }
 
 .edit-article__btns {
+  display: flex;
+  gap: 16px;
   position: absolute;
   right: 16px;
   top: 92px;
