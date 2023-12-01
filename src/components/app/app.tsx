@@ -9,9 +9,8 @@ import { SignIn } from '../sign-in/sign-in';
 import { SignedHeader } from '../header/signed-header';
 import { FullArticle } from '../full-article/full-article';
 import { NotFoundPage } from '../not-found-page/not-found-page';
-import { CreateArticle } from '../create-article/create-article';
+import { CreateEditArticle } from '../create-edit-article/create-edit-article';
 import { EditProfile } from '../edit-profile/edit-profile';
-import { ArticleEdit } from '../article-edit/article-edit';
 import { RequireAuth } from '../require-auth/require-auth';
 
 export const App: FC = () => {
@@ -31,7 +30,7 @@ export const App: FC = () => {
               path="/articles/:slug/edit"
               element={
                 <RequireAuth>
-                  <ArticleEdit />
+                  <CreateEditArticle key="edit" isCreateArticle={false} />
                 </RequireAuth>
               }
             />
@@ -47,7 +46,7 @@ export const App: FC = () => {
               path="/new-article"
               element={
                 <RequireAuth>
-                  <CreateArticle />
+                  <CreateEditArticle key="create" isCreateArticle />
                 </RequireAuth>
               }
             />

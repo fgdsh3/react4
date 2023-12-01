@@ -7,6 +7,7 @@ interface IState {
   fullArticle: IFullArticleObj | '';
   isLoading: boolean;
   notFoundPage: boolean;
+  isCreateArticle: boolean;
   tags: string[];
   error: string;
 }
@@ -45,6 +46,7 @@ const initialState: IState = {
   fullArticle: '',
   isLoading: false,
   notFoundPage: false,
+  isCreateArticle: false,
   tags: [''],
   error: '',
 };
@@ -121,6 +123,12 @@ export const fullArticle = createSlice({
         ...state.tags.slice(index + 1),
       ];
     },
+    clearTags(state: IState) {
+      state.tags = [''];
+    },
+    changeTagsArr(state: IState, action: { type: string; payload: string[] }) {
+      state.tags = action.payload;
+    },
     changeFavoritedFullArticle(state: IState) {
       if (state.fullArticle) {
         if (state.fullArticle.favorited) {
@@ -131,6 +139,9 @@ export const fullArticle = createSlice({
           state.fullArticle.favoritesCount += 1;
         }
       }
+    },
+    changeIsCreateArticle(state: IState, action) {
+      state.isCreateArticle = action.payload;
     },
   },
   extraReducers(builder) {
@@ -157,5 +168,12 @@ export const fullArticle = createSlice({
   },
 });
 
-export const { addTag, updateTag, changeFavoritedFullArticle, deleteTag } =
-  fullArticle.actions;
+export const {
+  addTag,
+  updateTag,
+  deleteTag,
+  clearTags,
+  changeTagsArr,
+  changeFavoritedFullArticle,
+  changeIsCreateArticle,
+} = fullArticle.actions;
